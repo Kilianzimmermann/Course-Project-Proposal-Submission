@@ -26,7 +26,7 @@ public class Sampleproject {
             return;
         }
 
-        StringBuilder hiddenWord = new StringBuilder("_".repeat(word.length()));
+        StringBuilder hiddenWord = new StringBuilder("_ ".repeat(word.length()));
         int attempts = 6;
         Scanner scanner = new Scanner(System.in);
         
