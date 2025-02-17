@@ -2,6 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
+/* sample code for our project
+ * Things that still need work: Check for repeated inputed letters, make sure that when the user has already inputed a letter, he can't input it again
+ * Make sure the user is able to see the letters he has already inputed on the screen, also make sure if the user inputs a repeated letter, not to take a life away
+ */  
 package com.mycompany.sampleproject;
 
 import java.io.BufferedReader;
