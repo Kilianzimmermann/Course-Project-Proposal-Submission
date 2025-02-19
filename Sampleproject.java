@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Sampleproject {
 
@@ -19,6 +21,9 @@ public class Sampleproject {
         StringBuilder hiddenWord = new StringBuilder("_".repeat(word.length()));
         int attempts = 6;
         Scanner scanner = new Scanner(System.in);
+        
+        // Set to store guessed letters
+        Set<Character> guessedLetters = new HashSet<>();
         
         System.out.println("Welcome to Hangman!");
         System.out.println("Try to guess the word.");
@@ -36,6 +41,15 @@ public class Sampleproject {
                 System.out.println("Please enter a valid letter.");
                 continue;
             }
+
+            // Check if the letter has already been guessed
+            if (hasAlreadyGuessed(guessedLetters, guess.charAt(0))) {
+                System.out.println("You've already guessed that letter. Try a different one.");
+                continue;
+            }
+
+            // Add the guessed letter to the set
+            guessedLetters.add(guess.charAt(0));
 
             boolean found = false;
             for (int i = 0; i < word.length(); i++) {
@@ -72,6 +86,11 @@ public class Sampleproject {
             spacedWord.append(word.charAt(i)).append(" ");
         }
         return spacedWord.toString().trim();
+    }
+
+    // Method to check if a letter has already been guessed
+    private static boolean hasAlreadyGuessed(Set<Character> guessedLetters, char letter) {
+        return guessedLetters.contains(letter);
     }
 
     public static String getRandomWordFromWeb() {
