@@ -1,4 +1,9 @@
 package com.mycompany.sampleproject;
+// added the support for the user guessing repeated letters, and made the length of the word that the user has to guess clearer, adding spaces between every
+// underscore, in order for the user to tell how many more letters he needs to guess
+// WHAT IS STILL NEEDED:
+// All of the javafx part of the app (drawing the hangman stage, a display that shows the wrong letters and drawing the hangman body parts after each wrong guess,
+// displaying the correct letters in the correct spaces and showing the remaining amount of lives/attempts the user has left)
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
