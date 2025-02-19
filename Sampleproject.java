@@ -1,11 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
-/* sample code for our project
- * Things that still need work: Check for repeated inputed letters, make sure that when the user has already inputed a letter, he can't input it again
- * Make sure the user is able to see the letters he has already inputed on the screen, also make sure if the user inputs a repeated letter, not to take a life away
- */  
 package com.mycompany.sampleproject;
 
 import java.io.BufferedReader;
@@ -13,10 +5,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
-/**
- *
- * @author kzimm
- */
+
 public class Sampleproject {
 
     public static void main(String[] args) {
@@ -26,13 +15,16 @@ public class Sampleproject {
             return;
         }
 
+        // Create the hidden word with underscores
         StringBuilder hiddenWord = new StringBuilder("_".repeat(word.length()));
         int attempts = 6;
         Scanner scanner = new Scanner(System.in);
         
         System.out.println("Welcome to Hangman!");
         System.out.println("Try to guess the word.");
-        System.out.println("The word is: " + hiddenWord);
+        
+        // Print the hidden word with spaces between underscores
+        System.out.println("The word is: " + addSpacesToHiddenWord(hiddenWord.toString()));
         
         while (attempts > 0 && hiddenWord.toString().contains("_")) {
             System.out.println("Attempts left: " + attempts);
@@ -60,7 +52,8 @@ public class Sampleproject {
                 System.out.println("Good guess!");
             }
 
-            System.out.println("The word is: " + hiddenWord);
+            // Print the hidden word with spaces between underscores
+            System.out.println("The word is: " + addSpacesToHiddenWord(hiddenWord.toString()));
         }
 
         if (hiddenWord.toString().equals(word)) {
@@ -70,6 +63,15 @@ public class Sampleproject {
         }
 
         scanner.close();
+    }
+
+    // Helper method to add spaces between each character in the hidden word
+    private static String addSpacesToHiddenWord(String word) {
+        StringBuilder spacedWord = new StringBuilder();
+        for (int i = 0; i < word.length(); i++) {
+            spacedWord.append(word.charAt(i)).append(" ");
+        }
+        return spacedWord.toString().trim();
     }
 
     public static String getRandomWordFromWeb() {
