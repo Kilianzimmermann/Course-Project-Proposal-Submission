@@ -26,7 +26,7 @@ public class Sampleproject {
             return;
         }
 
-        StringBuilder hiddenWord = new StringBuilder("_ ".repeat(word.length()));
+        StringBuilder hiddenWord = new StringBuilder("_".repeat(word.length()));
         int attempts = 6;
         Scanner scanner = new Scanner(System.in);
         
@@ -37,7 +37,7 @@ public class Sampleproject {
         while (attempts > 0 && hiddenWord.toString().contains("_")) {
             System.out.println("Attempts left: " + attempts);
             System.out.print("Enter a letter: ");
-            String guess = scanner.nextLine().toLowerCase();
+            String guess = scanner.nextLine().toUpperCase();
 
             // Validate user input
             if (guess.length() != 1 || !Character.isLetter(guess.charAt(0))) {
@@ -84,7 +84,7 @@ public class Sampleproject {
             while ((inputLine = in.readLine()) != null) {
                 if (inputLine.contains("random word")) {
                     // Extract the word here, for now we assume the word is directly available
-                    word = "hangman"; // Placeholder word, for demonstration.
+                    word = "HANGMAN"; // Placeholder word, for demonstration.
                     break;
                 }
             }
