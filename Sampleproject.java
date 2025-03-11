@@ -7,6 +7,8 @@ package com.mycompany.sampleproject;
 
 // what is still needed
 // implementing this code into a javafx app that correctly uses the code to display a hangman game.
+// might want to add different and longer/ more difficult words
+// maybe adding some short and easier words also
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
