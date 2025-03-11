@@ -1,22 +1,22 @@
 package com.mycompany.sampleproject;
-// added the support for the user guessing repeated letters, and made the length of the word that the user has to guess clearer, adding spaces between every
-// underscore, in order for the user to tell how many more letters he needs to guess
-// WHAT IS STILL NEEDED:
-// All of the javafx part of the app (drawing the hangman stage, a display that shows the wrong letters and drawing the hangman body parts after each wrong guess,
-// displaying the correct letters in the correct spaces and showing the remaining amount of lives/attempts the user has left)
+// what has changed
+// changed the getWordfromWeb into a wordlist, which usses an array to store multiple different words that are used for the hidden Word.
+// this is in order to make the compiling of the project easier
+// the guessing and word choosing still works as expected
+// the life system and win and lose features still work as expected
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+// what is still needed
+// implementing this code into a javafx app that correctly uses the code to display a hangman game.
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
 public class Sampleproject {
 
     public static void main(String[] args) {
-        String word = getRandomWordFromWeb();
+        // Get a random word for the user to guess
+        String word = getRandomWord();
         if (word == null || word.isEmpty()) {
             System.out.println("Error fetching word.");
             return;
@@ -24,18 +24,19 @@ public class Sampleproject {
 
         // Create the hidden word with underscores
         StringBuilder hiddenWord = new StringBuilder("_".repeat(word.length()));
-        int attempts = 6;
+        int attempts = 6;  // Number of attempts (lives)
         Scanner scanner = new Scanner(System.in);
-        
+
         // Set to store guessed letters
         Set<Character> guessedLetters = new HashSet<>();
-        
+
         System.out.println("Welcome to Hangman!");
         System.out.println("Try to guess the word.");
-        
-        // Print the hidden word with spaces between underscores
+
+        // Print the initial hidden word with spaces between underscores
         System.out.println("The word is: " + addSpacesToHiddenWord(hiddenWord.toString()));
-        
+
+        // Game loop: Keep asking for guesses until the user wins or loses
         while (attempts > 0 && hiddenWord.toString().contains("_")) {
             System.out.println("Attempts left: " + attempts);
             System.out.print("Enter a letter: ");
@@ -57,24 +58,26 @@ public class Sampleproject {
             guessedLetters.add(guess.charAt(0));
 
             boolean found = false;
+            // Loop through the word and check for all occurrences of the guessed letter
             for (int i = 0; i < word.length(); i++) {
                 if (word.charAt(i) == guess.charAt(0)) {
-                    hiddenWord.setCharAt(i, guess.charAt(0));
+                    hiddenWord.setCharAt(i, guess.charAt(0));  // Update all occurrences of the guessed letter
                     found = true;
                 }
             }
 
             if (!found) {
-                attempts--;
+                attempts--;  // Decrease attempts if the letter was not found
                 System.out.println("Incorrect guess.");
             } else {
                 System.out.println("Good guess!");
             }
 
-            // Print the hidden word with spaces between underscores
+            // Print the updated hidden word with spaces between underscores
             System.out.println("The word is: " + addSpacesToHiddenWord(hiddenWord.toString()));
         }
 
+        // Check if the player has guessed all letters correctly
         if (hiddenWord.toString().equals(word)) {
             System.out.println("Congratulations, you guessed the word!");
         } else {
@@ -98,26 +101,19 @@ public class Sampleproject {
         return guessedLetters.contains(letter);
     }
 
-    public static String getRandomWordFromWeb() {
-        String word = "";
-        try {
-            URL url = new URL("https://randomwordgenerator.com/");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
+    // Method to return a random word from a predefined list
+    public static String getRandomWord() {
+        // List of random words for the Hangman game
+        String[] wordList = {
+            "APPLE", "BANANA", "ORANGE", "GRAPE", "PINEAPPLE", "MANGO", "WATERMELON",
+            "STRAWBERRY", "BLUEBERRY", "RASPBERRY", "CHERRY", "PEACH", "PLUM", "PEAR",
+            "LEMON", "LIME", "KIWI", "PAPAYA", "COCONUT", "AVOCADO", "CARROT", "POTATO",
+            "CUCUMBER", "TOMATO", "PUMPKIN", "BROCCOLI", "SPINACH", "LETTUCE", "ZUCCHINI",
+            "EGGPLANT", "BELLPEPPER", "ASPARAGUS", "ARTICHOKE", "RADISH", "BEETROOT"
+        };
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                if (inputLine.contains("random word")) {
-                    // Extract the word here, for now we assume the word is directly available
-                    word = "HANGMAN"; // Placeholder word, for demonstration.
-                    break;
-                }
-            }
-            in.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return word;
+        // Select a random word from the list
+        Random rand = new Random();
+        return wordList[rand.nextInt(wordList.length)];
     }
 }
