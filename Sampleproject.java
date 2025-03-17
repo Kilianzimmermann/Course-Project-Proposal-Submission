@@ -1,14 +1,5 @@
 package com.mycompany.sampleproject;
-// what has changed
-// changed the getWordfromWeb into a wordlist, which usses an array to store multiple different words that are used for the hidden Word.
-// this is in order to make the compiling of the project easier
-// the guessing and word choosing still works as expected
-// the life system and win and lose features still work as expected
 
-// what is still needed
-// implementing this code into a javafx app that correctly uses the code to display a hangman game.
-// might want to add different and longer/ more difficult words
-// maybe adding some short and easier words also
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
@@ -107,11 +98,18 @@ public class Sampleproject {
     public static String getRandomWord() {
         // List of random words for the Hangman game
         String[] wordList = {
-            "APPLE", "BANANA", "ORANGE", "GRAPE", "PINEAPPLE", "MANGO", "WATERMELON",
-            "STRAWBERRY", "BLUEBERRY", "RASPBERRY", "CHERRY", "PEACH", "PLUM", "PEAR",
-            "LEMON", "LIME", "KIWI", "PAPAYA", "COCONUT", "AVOCADO", "CARROT", "POTATO",
-            "CUCUMBER", "TOMATO", "PUMPKIN", "BROCCOLI", "SPINACH", "LETTUCE", "ZUCCHINI",
-            "EGGPLANT", "BELLPEPPER", "ASPARAGUS", "ARTICHOKE", "RADISH", "BEETROOT"
+            "APPLE", "BANANA", "CHERRY", "DOG", "ELEPHANT", "FLAME", "GRAPE", "HOUSE", "INTENSE", "JUNGLE",
+            "KITE", "LION", "MONKEY", "NOTEBOOK", "ORANGE", "PIANO", "QUILT", "ROSE", "SUNSHINE", "TREE",
+            "UMBRELLA", "VIOLET", "WHALE", "XYLOPHONE", "YELLOW", "ZEBRA", "ACORN", "BALLOON", "CAMERA", 
+            "DOLPHIN", "ECHO", "FOG", "GARDEN", "HILL", "ICE", "JUMP", "KING", "LAMP", "MOUNTAIN", "NIGHT",
+            "OCTOPUS", "PEACH", "QUICKSAND", "RAIN", "STAR", "TURTLE", "UNICORN", "VAMPIRE", "WINDOW",
+            "TEACHER", "YARN", "ZINC", "ABACUS", "BIRD", "CAT", "DANCE", "ENVELOPE", "FIRE", "GRAVEL",
+            "HORIZON", "IGUANA", "JIGSAW", "KITE", "LEMON", "MANGO", "NUT", "OCEAN", "PUZZLE", "QUIET",
+            "ROOSTER", "SNOW", "TRAIN", "UPSIDE", "VOLCANO", "WATER", "XENON", "YELLOW", "ZOOKEEPER", 
+            "ADVENTURE", "BAT", "CHOCOLATE", "DAZZLE", "ELEPHANT", "FROST", "GREEN", "HURRICANE", "ILLUMINATE",
+            "JELLYFISH", "KETTLE", "LOVE", "MYSTERY", "NOTION", "PARADISE", "QUIVER", "ROAR", "SUNSET",
+            "TIGER", "UNIVERSE", "WHISPER", "XENIAL", "YODEL", "ZEST", "AVOCADO", "BRILLIANT", "CHARM",
+            "DEER", "ETERNITY", "FASCINATE", "GLIMMER", "HAWK"
         };
 
         // Select a random word from the list
