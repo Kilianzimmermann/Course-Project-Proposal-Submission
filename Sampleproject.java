@@ -98,19 +98,34 @@ public class Sampleproject {
     public static String getRandomWord() {
         // List of random words for the Hangman game
         String[] wordList = {
-            "APPLE", "BANANA", "CHERRY", "DOG", "ELEPHANT", "FLAME", "GRAPE", "HOUSE", "INTENSE", "JUNGLE",
-            "KITE", "LION", "MONKEY", "NOTEBOOK", "ORANGE", "PIANO", "QUILT", "ROSE", "SUNSHINE", "TREE",
-            "UMBRELLA", "VIOLET", "WHALE", "XYLOPHONE", "YELLOW", "ZEBRA", "ACORN", "BALLOON", "CAMERA", 
-            "DOLPHIN", "ECHO", "FOG", "GARDEN", "HILL", "ICE", "JUMP", "KING", "LAMP", "MOUNTAIN", "NIGHT",
-            "OCTOPUS", "PEACH", "QUICKSAND", "RAIN", "STAR", "TURTLE", "UNICORN", "VAMPIRE", "WINDOW",
-            "TEACHER", "YARN", "ZINC", "ABACUS", "BIRD", "CAT", "DANCE", "ENVELOPE", "FIRE", "GRAVEL",
-            "HORIZON", "IGUANA", "JIGSAW", "KITE", "LEMON", "MANGO", "NUT", "OCEAN", "PUZZLE", "QUIET",
-            "ROOSTER", "SNOW", "TRAIN", "UPSIDE", "VOLCANO", "WATER", "XENON", "YELLOW", "ZOOKEEPER", 
-            "ADVENTURE", "BAT", "CHOCOLATE", "DAZZLE", "ELEPHANT", "FROST", "GREEN", "HURRICANE", "ILLUMINATE",
-            "JELLYFISH", "KETTLE", "LOVE", "MYSTERY", "NOTION", "PARADISE", "QUIVER", "ROAR", "SUNSET",
-            "TIGER", "UNIVERSE", "WHISPER", "XENIAL", "YODEL", "ZEST", "AVOCADO", "BRILLIANT", "CHARM",
-            "DEER", "ETERNITY", "FASCINATE", "GLIMMER", "HAWK"
-        };
+            "APPLE", "BANANA", "ORANGE", "GRAPE", "MANGO", "PEAR", "PEACH", "PLUM", "CHERRY", "KIWI",
+            "PINEAPPLE", "WATERMELON", "STRAWBERRY", "BLUEBERRY", "RASPBERRY", "BLACKBERRY", "TANGERINE", 
+            "LEMON", "LIME", "AVOCADO", "COCONUT", "ALMOND", "CASHEW", "PEANUT", "WALNUT", "HAZELNUT", 
+            "MACADAMIA", "PISTACHIO", "SHEA", "CARAMEL", "CHOCOLATE", "VANILLA", "CINNAMON", "MINT", "GINGER", 
+            "SUGAR", "HONEY", "MAPLE", "FUDGE", "MOCHA", "LATTE", "ESPRESSO", "CAPPUCCINO", "AMERICANO", 
+            "MACCHIATO", "COFFEE", "TEA", "HOTCOCOA", "CARAMEL", "MILK", "CREAM", "BUTTER", "CHEESE", "YOGURT", 
+            "EGGS", "BREAD", "CEREAL", "OATS", "POPCORN", "CRACKERS", "NUTS", "SOUP", "SALAD", "SANDWICH", 
+            "BURGER", "PIZZA", "PASTA", "SPAGHETTI", "NOODLES", "RICE", "CHICKEN", "TURKEY", "BEEF", "PORK", 
+            "LAMB", "FISH", "TUNA", "SALMON", "COD", "TROUT", "SHRIMP", "CRAB", "LOBSTER", "MUSSELS", "OYSTERS", 
+            "CAVIAR", "STEAK", "PORKCHOP", "FRIEDRICE", "POTATOES", "CARROTS", "PEAS", "BROCCOLI", "CABBAGE", 
+            "CORN", "TOMATO", "LETTUCE", "CUCUMBER", "PEPPER", "ONION", "GARLIC", "GINGER", "MUSHROOM", 
+            "SPINACH", "KALE", "BRUSSELS", "BEANS", "SQUASH", "ZUCCHINI", "ARTICHOKE", "LEEK", "FENNEL", 
+            "PARSNIP", "TURNIP", "PUMPKIN", "YAM", "POTATO", "RADISH", "AVOCADO", "FETA", "PANEER", "MOZZARELLA", 
+            "BRIE", "CHEDDAR", "PARMESAN", "SWISS", "CAMEMBERT", "GOUDA", "AMERICAN", "JACK", "PEPPERJACK", 
+            "COLBY", "PROVOLONE", "COTTAGE", "RICOTTA", "CHEESECAKE", "PIE", "CAKE", "BROWNIE", "COOKIE", 
+            "MUFFIN", "CUPCAKE", "DOUGHNUT", "TART", "PUDDING", "SORBET", "ICECREAM", "CUPCAKES", "CANDY", 
+            "CARAMEL", "COTTONCANDY", "MARSHMALLOW", "GUMDROP", "JELLYBEAN", "MINTCHOCOLATE", "LOLLIPOP", 
+            "FUDGE", "CHOCOLATE", "MILKCHOCOLATE", "DARKCHOCOLATE", "WHITECHOCOLATE", "TRUFFLES", "CARAMEL", 
+            "CHOCOLATECAKE", "TIRAMISU", "PAVLOVA", "MOUSSE", "MACAROONS", "BISCUITS", "KNOCKKNOCK", "BILL",
+            "COFFEE", "TEA", "LATTE", "CARAMEL", "COCONUT", "TOAST", "CUP", "GLASS", "MUG", "BOTTLE", 
+            "TUMBLER", "CUPBOARD", "FLOOR", "WALL", "ROOF", "DOOR", "WINDOW", "LIGHT", "FLOODLIGHT", "LAMPS", 
+            "CANDLES", "BULB", "ELECTRICITY", "WIRING", "BATTERY", "GENERATOR", "CIRCUIT", "WIRES", "POWER", 
+            "ELECTRIC", "LAMP", "FLOOR", "CABINET", "SHELF", "DRAWER", "CHAIR", "SOFA", "BED", "MATTRESS", 
+            "BLANKET", "CUSHION", "PILLOW", "CARPET", "RUG", "LAMP", "LANTERN", "PAINT", "PAPER", "PEN", 
+            "PENCIL", "MARKER", "ERASER", "SHARPENER", "FOLDER", "BINDER", "NOTEBOOK", "STAPLER", "RULER", 
+            "TAPE", "SCISSORS", "GLOVES", "MASK", "SHOES", "JACKET", "COAT", "HAT", "GLOVES", "SCARF", 
+            "Mittens", "JEANS", "TROUSERS", "SKIRTS", "SHIRTS", "PANTS", "HOODIE", "SWEATER", "T-SHIRT", 
+            "BUTTON", "BLOUSE", "DRESS", "SUIT", "TIE", "SHOES", "BOOTS", "SNEAKERS", "LOAFERS", "SLIPPERS"        };
 
         // Select a random word from the list
         Random rand = new Random();
