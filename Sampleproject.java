@@ -356,7 +356,8 @@ public class App extends Application {
 // altering a little of the new code provided for the final version of the APP
 // MAJOR CHANGES : Instead of quitting the whole application after each win / loss, it now automatically resets the game to the original state
 // where the user is able to play again, this now also includes a quit button next to the guess button, in order to shut down the application.
-// Also, added support for the User pressing the enter key, rather than the guess button, but still kept the guess button because it looks cleaner with it
+// Also, added support for the User pressing the enter key, rather than the guess button, but still kept the guess button because it looks cleaner with it.
+// Replaced the hangam drawing with the JavaFX lines and circles, in order to make it look cleaner and clearer for the user.
 // MINOR CHANGES : new colors for the gui, rather than the simple black and white, removed some of the really hard words.
 
 package com.mycompany.sampleproject1;
@@ -365,6 +366,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
 import javafx.stage.Stage;
 
 import java.util.HashSet;
@@ -376,9 +379,11 @@ public class App extends Application {
     private StringBuilder hiddenWord;
     private int attempts = 6;
     private Set<Character> guessedLetters = new HashSet<>();
-    private Label wordLabel, attemptsLabel, hangmanLabel, guessedLettersLabel;
+
+    private Label wordLabel, attemptsLabel, guessedLettersLabel;
     private TextField inputField;
     private Button guessButton, quitButton;
+    private Pane hangmanPane;
 
     @Override
     public void start(Stage primaryStage) {
@@ -388,29 +393,16 @@ public class App extends Application {
         wordLabel = new Label(addSpacesToHiddenWord(hiddenWord.toString()));
         attemptsLabel = new Label("Attempts left: " + attempts);
         guessedLettersLabel = new Label("Guessed letters: ");
-        hangmanLabel = new Label(getHangmanDrawing(6));
 
         wordLabel.setStyle("-fx-font-family: 'Pacifico'; -fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #ffffff;");
         attemptsLabel.setStyle("-fx-font-family: 'Pacifico'; -fx-font-size: 20px; -fx-text-fill: #ffffff;");
-        guessedLettersLabel.setStyle("-fx-font-family: 'Pacifico'; -fx-font-size: 18px; -fx-text-fill: #ffffff;");
-        hangmanLabel.setStyle("-fx-font-family: 'Pacifico'; -fx-font-size: 22px; -fx-text-fill: #FFFFFF;");
+        guessedLettersLabel.setStyle("-fx-font-family: 'Pacifico'; -fx-font-size: 20px; -fx-text-fill: #ffffff;");
 
         inputField = new TextField();
         inputField.setMaxWidth(100);
         inputField.setOnAction(e -> handleGuess());
-        inputField.setStyle(
-            "-fx-font-family: 'Pacifico'; " +
-            "-fx-background-color: #d7ccc8; " +
-            "-fx-text-fill: #4e342e; " +
-            "-fx-font-size: 18px; " +
-            "-fx-padding: 6px; " +
-            "-fx-background-radius: 8px; " +
-            "-fx-border-color: #a1887f; " +
-            "-fx-border-radius: 8px;"
-        );
 
         guessButton = new Button("Guess");
-        guessButton.setOnAction(e -> handleGuess());
         guessButton.setStyle(
             "-fx-font-family: 'Pacifico'; " +
             "-fx-background-color: #2e7d32; " +
@@ -432,9 +424,9 @@ public class App extends Application {
             "-fx-font-size: 16px; " +
             "-fx-background-radius: 8px;"
         ));
+        guessButton.setOnAction(e -> handleGuess());
 
         quitButton = new Button("Quit");
-        quitButton.setOnAction(e -> System.exit(0));
         quitButton.setStyle(
             "-fx-font-family: 'Pacifico'; " +
             "-fx-background-color: #c62828; " +
@@ -456,22 +448,26 @@ public class App extends Application {
             "-fx-font-size: 16px; " +
             "-fx-background-radius: 8px;"
         ));
+        quitButton.setOnAction(e -> System.exit(0));
+
+        hangmanPane = new Pane();
+        hangmanPane.setPrefSize(200, 300);
+        hangmanPane.setStyle("-fx-background-color: transparent;");
+        drawGallows();
+
+        HBox hangmanBox = new HBox(hangmanPane);
+        hangmanBox.setStyle("-fx-alignment: center;");
 
         HBox buttonRow = new HBox(10, guessButton, quitButton);
         buttonRow.setStyle("-fx-alignment: center;");
 
-        VBox layout = new VBox(15, wordLabel, attemptsLabel, hangmanLabel, guessedLettersLabel, inputField, buttonRow);
-        layout.setStyle(
-            "-fx-padding: 30; " +
-            "-fx-alignment: center; " +
-            "-fx-background-color: #6E4B34;"
-        );
+        // Main layout
+        VBox layout = new VBox(15, wordLabel, attemptsLabel, hangmanBox, guessedLettersLabel, inputField, buttonRow);
+        layout.setStyle("-fx-padding: 30; -fx-alignment: center; -fx-background-color: #6E4B34;");
 
         Scene scene = new Scene(layout, 1550, 820);
         primaryStage.setTitle("Hangman Game");
         primaryStage.setScene(scene);
-        primaryStage.setWidth(1550);
-        primaryStage.setHeight(820);
         primaryStage.setResizable(false);
         primaryStage.show();
     }
@@ -504,7 +500,7 @@ public class App extends Application {
 
         if (!found) {
             attempts--;
-            hangmanLabel.setText(getHangmanDrawing(attempts));
+            drawHangmanPart(attempts);
         }
 
         wordLabel.setText(addSpacesToHiddenWord(hiddenWord.toString()));
@@ -519,12 +515,60 @@ public class App extends Application {
         }
     }
 
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    private void drawGallows() {
+        hangmanPane.getChildren().clear();
+
+        
+        Line base = new Line(20, 280, 180, 280);
+        Line pole = new Line(50, 280, 50, 50);
+        Line beam = new Line(50, 50, 130, 50);
+        Line rope = new Line(130, 50, 130, 80);
+
+        base.setStrokeWidth(5);
+        base.setStroke(Color.WHITE);
+        pole.setStrokeWidth(5);
+        pole.setStroke(Color.WHITE);
+        beam.setStrokeWidth(5);
+        beam.setStroke(Color.WHITE);
+        rope.setStrokeWidth(5);
+        rope.setStroke(Color.WHITE);
+
+        hangmanPane.getChildren().addAll(base, pole, beam, rope);
+    }
+
+    private void drawHangmanPart(int attemptsLeft) {
+        if (attemptsLeft == 5) {
+            Circle head = new Circle(130, 100, 20);
+            head.setStroke(Color.WHITE);
+            head.setFill(Color.TRANSPARENT);
+            head.setStrokeWidth(3);
+            hangmanPane.getChildren().add(head);
+        } else if (attemptsLeft == 4) {
+            Line body = new Line(130, 120, 130, 180); // Body
+            body.setStroke(Color.WHITE);
+            body.setStrokeWidth(3);
+            hangmanPane.getChildren().add(body);
+        } else if (attemptsLeft == 3) {
+            Line leftArm = new Line(130, 140, 100, 160); // Left arm
+            leftArm.setStroke(Color.WHITE);
+            leftArm.setStrokeWidth(3);
+            hangmanPane.getChildren().add(leftArm);
+        } else if (attemptsLeft == 2) {
+            Line rightArm = new Line(130, 140, 160, 160); // Right arm
+            rightArm.setStroke(Color.WHITE);
+            rightArm.setStrokeWidth(3);
+            hangmanPane.getChildren().add(rightArm);
+        } else if (attemptsLeft == 1) {
+            Line leftLeg = new Line(130, 180, 100, 220); // Left leg
+            leftLeg.setStroke(Color.WHITE);
+            leftLeg.setStrokeWidth(3);
+            hangmanPane.getChildren().add(leftLeg);
+        } else if (attemptsLeft == 0) {
+            Line rightLeg = new Line(130, 180, 160, 220); // Right leg
+            rightLeg.setStroke(Color.WHITE);
+            rightLeg.setStrokeWidth(3);
+            hangmanPane.getChildren().add(rightLeg);
+        }
     }
 
     private void resetGame() {
@@ -536,21 +580,30 @@ public class App extends Application {
         wordLabel.setText(addSpacesToHiddenWord(hiddenWord.toString()));
         attemptsLabel.setText("Attempts left: " + attempts);
         guessedLettersLabel.setText("Guessed letters: ");
-        hangmanLabel.setText(getHangmanDrawing(attempts));
         inputField.clear();
+
+        drawGallows(); // Reset the hangman drawing
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     private static String addSpacesToHiddenWord(String word) {
         StringBuilder spacedWord = new StringBuilder();
-        for (int i = 0; i < word.length(); i++) {
-            spacedWord.append(word.charAt(i)).append(" ");
+        for (char c : word.toCharArray()) {
+            spacedWord.append(c).append(" ");
         }
         return spacedWord.toString().trim();
     }
 
     private static String getRandomWord() {
         String[] wordList = {
-           "APPLE", "BANANA", "ORANGE", "GRAPE", "MANGO", "PEAR", "PEACH", "PLUM", "CHERRY", "KIWI",
+            "APPLE", "BANANA", "ORANGE", "GRAPE", "MANGO", "PEAR", "PEACH", "PLUM", "CHERRY", "KIWI",
             "PINEAPPLE", "WATERMELON", "STRAWBERRY", "BLUEBERRY", "RASPBERRY", "BLACKBERRY", "TANGERINE", 
             "LEMON", "LIME", "AVOCADO", "COCONUT", "ALMOND", "CASHEW", "PEANUT", "WALNUT", "HAZELNUT", 
             "MACADAMIA", "PISTACHIO", "SHEA", "CARAMEL", "CHOCOLATE", "VANILLA", "CINNAMON", "MINT", "GINGER", 
@@ -562,37 +615,11 @@ public class App extends Application {
             "CAVIAR", "STEAK", "PORKCHOP", "POTATOES", "CARROTS", "PEAS", "BROCCOLI", "CABBAGE", 
             "CORN", "TOMATO", "LETTUCE", "CUCUMBER", "PEPPER", "ONION", "GARLIC", "GINGER", "MUSHROOM", 
             "SPINACH", "KALE", "BRUSSELS", "BEANS", "SQUASH", "ZUCCHINI", "ARTICHOKE", "LEEK", 
-            "PARSNIP", "TURNIP", "PUMPKIN", "YAM", "POTATO", "RADISH", "AVOCADO", "PANEER", "MOZZARELLA", 
-            "LOBSTER", "CHEDDAR", "PARMESAN","PEPPERJACK", 
-            "COLBY", "PROVOLONE", "COTTAGE", "RICOTTA", "CHEESECAKE", "PIE", "CAKE", "BROWNIE", "COOKIE", 
-            "MUFFIN", "CUPCAKE", "DOUGHNUT", "TART", "PUDDING", "SORBET", "ICECREAM", "CUPCAKES", "CANDY", 
-            "CARAMEL", "COTTONCANDY", "MARSHMALLOW", "GUMDROP", "JELLYBEAN", "MINTCHOCOLATE", "LOLLIPOP", 
-            "FUDGE", "CHOCOLATE", "MILKCHOCOLATE", "DARKCHOCOLATE", "WHITECHOCOLATE", "TRUFFLES", "CARAMEL", 
-            "CHOCOLATECAKE", "TIRAMISU", "PAVLOVA", "MOUSSE", "MACAROONS", "BISCUITS", "KNOCKKNOCK", "BILL",
-            "COFFEE", "TEA", "LATTE", "CARAMEL", "COCONUT", "TOAST", "CUP", "GLASS", "MUG", "BOTTLE", 
-            "TUMBLER", "CUPBOARD", "FLOOR", "WALL", "ROOF", "DOOR", "WINDOW", "LIGHT", "FLOODLIGHT", "LAMPS", 
-            "CANDLES", "BULB", "ELECTRICITY", "WIRING", "BATTERY", "GENERATOR", "CIRCUIT", "WIRE", "POWER", 
-            "ELECTRIC", "LAMP", "FLOOR", "CABINET", "SHELF", "DRAWER", "CHAIR", "SOFA", "BED", "MATTRESS", 
-            "BLANKET", "CUSHION", "PILLOW", "CARPET", "RUG", "LAMP", "LANTERN", "PAINT", "PAPER", "PEN", 
-            "PENCIL", "MARKER", "ERASER", "SHARPENER", "FOLDER", "BINDER", "NOTEBOOK", "STAPLER", "RULER", 
-            "TAPE", "SCISSOR", "GLOVE", "MASK", "SHOE", "JACKET", "COAT", "HAT", "SCARF", 
-            "MITTEN", "JEANS", "TROUSER", "SKIRT", "SHIRT", "PANTS", "HOODIE", "SWEATER", "CARABINDER", 
-            "BUTTON", "BLOUSE", "DRESS", "SUIT", "TIE", "HEADPHONES", "BOOTS", "SNEAKERS", "LOAFERS", "SLIPPERS"
+            "PARSNIP", "SWEETPOTATO", "BELLPEPPER", "EGGPLANT", "ASPARAGUS", "CAULIFLOWER", "TURNIP", 
+            "LEAFYGREEN", "CABBAGE"
         };
-        return wordList[new Random().nextInt(wordList.length)];
-    }
-
-    private String getHangmanDrawing(int attemptsLeft) {
-        String[] hangmanStages = {
-            "_________\n|/      |\n|\n|\n|\n|\n|\n|________",
-            "_________\n|/      |\n|    (X_X)\n|\n|\n|\n|\n|________",
-            "_________\n|/      |\n|    (X_X)\n|      \\|\n|       |\n|\n|\n|________",
-            "_________\n|/      |\n|    (X_X)\n|      \\|/\n|       |\n|\n|\n|________",
-            "_________\n|/      |\n|    (X_X)\n|      \\|/\n|       |\n|     / \n|\n|________",
-            "_________\n|/      |\n|    (X_X)\n|      \\|/\n|       |\n|      / \\\n|\n|________",
-            "_________\n|/      |\n|    (X_X)\n|      \\|/\n|       |\n|      / \\\n|\n|________"
-        };
-        return hangmanStages[6 - attemptsLeft];
+        Random rand = new Random();
+        return wordList[rand.nextInt(wordList.length)];
     }
 
     public static void main(String[] args) {
