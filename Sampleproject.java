@@ -465,7 +465,7 @@ public class App extends Application {
         VBox layout = new VBox(15, wordLabel, attemptsLabel, hangmanBox, guessedLettersLabel, inputField, buttonRow);
         layout.setStyle("-fx-padding: 30; -fx-alignment: center; -fx-background-color: #6E4B34;");
 
-        Scene scene = new Scene(layout, 1550, 820);
+        Scene scene = new Scene(layout, 1550, 790);
         primaryStage.setTitle("Hangman Game");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
