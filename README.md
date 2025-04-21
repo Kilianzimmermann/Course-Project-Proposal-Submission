@@ -12,4 +12,5 @@ How to use the app
 - Build and run the project, not just the app file
 - Choose a difficulty for the game, which impacts the length of the hidden words
 - Play the game as much as you want, using the quit button to exit out of the app, and the difficulty dropdown to choose the difficulty of each round
-![Screenshot 2025-02-10 101049](https://github.com/user-attachments/assets/57fa599a-0d0c-4028-9d11-4a4ca27ef156)
+
+![Screenshot 2025-04-21 120155](https://github.com/user-attachments/assets/1ba7d10a-f9b4-497e-b19e-7cbd106f6c0a)
